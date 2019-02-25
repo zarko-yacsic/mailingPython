@@ -1,0 +1,34 @@
+﻿
+- BRANCH GITHUB:
+a). Base: https://github.com/holavpv/enviosPython/tree/base
+b). Desarrollo: https://github.com/holavpv/enviosPython/tree/envios_GCLIENT-304-ZY
+
+
+- DESCRIPCIÓN SOLUCIÓN:
+Se analizaron las funcionalidades existentes en PHP y se replicaron en un script Python, el cual se conecta a una base de datos MongoDB. Este script también está integrado a la herramienta Mandrill, y su implementación para Python se hizo de acuerdo a lo indicado en su documentación. Durante el proceso de desarrollo se encontraron algunos alcances, los cuales se detallan más abajo bajo el título "OTRAS CONSIDERACIONES".
+
+
+- LISTA DE ARCHIVOS:
+a). Agregados : /enviar.py
+b). Modificados : Ninguno 
+c). Eliminados : Ninguno 
+
+
+OBSERVACIONES PARA ETAPA POSTERIOR:
+
+1). Hay que establecer una forma de recuperar desde PHP los correos que se cargaron en MongoDB, pero que no fueron enviados, para así cargarlos a MongoDB en el envío siguiente (Actualmente en el script Python, los correos que fueron efectivamente enviados se marcan actualizando el campo 'enviado' con el valor '1').
+
+2). URL Imagen vendedor: En algunos correos hay que incluirla. Eso lo hace actualmente PHP con una query secundaria. Entonces, para la implementación de la salida JSON, la URL de esta imagen ya debe venir incluida. En caso de que el id del vendedor sea 0, MongoDB debe almacenar de todas formas un string vacío).
+
+3). Cuando el destinatario se agrega a la Blacklist: Esto tambien lo hace PHP usando una query secundaria, por lo que hay que definir como se va a manejar desde el script Python.
+
+
+OTRAS CONSIDERACIONES:
+
+1). Se adjuntaron a la documentación los siguientes archivos:
+  - gclient_envios.json (Contiene la estructura del JSON que debe generar MongoDB)
+  - query.sql (Contiene la consulta MySQL original hecha desde PHP)
+
+1). El contenido de la plantilla HTML de correo que se obtiene desde MongoDB (campo 'template_html') deberá estar almacenado en una sola línea y con las comillas (") escapadas (\"). De manera opcional, se pueden incluir los saltos de línea usando el caracter '\n' (Usar archivo adjunto 'gclient_envios.js' como referencia)
+
+2). No está implementada la llamada al respectivo Cron que ejecutará el script Python. Se deberá hacer al momento de la implementación final.
